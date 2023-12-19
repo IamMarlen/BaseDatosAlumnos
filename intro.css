@@ -1,0 +1,59 @@
+.container-md {
+    display: flex;
+    flex-direction: column;
+    border-color: black;
+}
+
+.fulAlto {
+    height: 100vh;
+}
+
+.border-end {
+    display: grid;
+    align-content: center;
+}
+
+#Promedio {
+    padding: 30px;
+}
+
+
+
+.d-grid {
+    display: flex;
+    align-items: center
+}
+
+/* Estilo para el título del curso */
+#listaGrupos .tituloGrupos h4 {
+    text-align: center;
+    color: red;
+    text-decoration: underline;
+    font-size: 1.5rem; /* Puedes ajustar el tamaño según tus preferencias */
+    margin-bottom: 10px;
+}
+
+/* Estilos para los elementos de la lista */
+#listaGrupos .nombre-curso {
+    font-weight: bold; /* Puedes agregar otros estilos según tus preferencias */
+    color: black; /* Cambia el color a negro o el que desees */
+    font-size: 1rem; /* Puedes ajustar el tamaño según tus preferencias */
+    /* Otros estilos necesarios para los elementos de la lista */
+}
+
+#listaGrupos .nombre-alumno {
+    /* Estilos específicos para los nombres de los alumnos */
+    font-size: 0.9rem; /* Puedes ajustar el tamaño según tus preferencias */
+    /* Otros estilos necesarios para los nombres de los alumnos */
+}
+
+/* Estilo del título del grupo */
+.titulo-grupo {
+    color: #007bff; /* Color del texto del título */
+    font-size: 20px; /* Tamaño del texto del título */
+    margin-bottom: 10px; /* Margen inferior del título */
+}
+
+#listaGrupos .listaAlumnos {
+    display: none;  /* Oculta la lista de alumnos por defecto */
+}
