@@ -8,8 +8,6 @@ class Alumno {
     }
 }
 
-const listaCursos = ['Matemáticas', 'Programación', 'Inglés', 'Logística', 'Electrónica'];
-
 class Curso {
     constructor(nombre, calificaciones) {
         this.nombre = nombre;
@@ -449,9 +447,10 @@ function crearGrupos() {
         const grupoInfo = document.createElement('div');
         grupoInfo.className = 'd-flex justify-content-between p-3 border border-1 border-info-subtle rounded-1'; // Diseño para texto común
 
+        // Dentro de la función crearGrupos
         const verAlumnosBtn = document.createElement('button');
         verAlumnosBtn.type = 'button';
-        verAlumnosBtn.className = 'btn btn-primary btn-sm me-2';
+        verAlumnosBtn.className = 'btn btn-primary btn-sm me-2 ver-alumnos-btn';
         verAlumnosBtn.textContent = 'Ver Alumnos';
         verAlumnosBtn.addEventListener('click', () => {
             mostrarGrupos(); // Mostrar grupos al hacer clic
@@ -553,8 +552,6 @@ function ocultarAlumnosPromedio(cursoNombre) {
     listaAlumnos.style.display = 'none';
 }
 
-
-
 // Llamada a la función para crear grupos al cargar la página
 crearGrupos();
 
@@ -572,27 +569,11 @@ function revisarGrupos() {
 
 function verAlumnos(cursoNombre) {
     const listaAlumnos = document.getElementById(`listaAlumnos-${cursoNombre}`);
-    
-    // Asegúrate de que el elemento exista antes de cambiar el estilo
-    if (listaAlumnos) {
-        // Cambia el estilo para alternar entre 'block' y 'none'
-        listaAlumnos.style.display = (listaAlumnos.style.display === 'none') ? 'block' : 'none';
-    } else {
-        console.error(`Elemento no encontrado: listaAlumnos-${cursoNombre}`);
-    }
-}
+    console.log(`Haciendo clic en "Ver Alumnos" para ${cursoNombre}`);
 
-// En la creación del botón "Ver Alumnos"
-const verAlumnosBtn = document.createElement('button');
-verAlumnosBtn.type = 'button';
-verAlumnosBtn.className = 'btn btn-primary btn-sm me-2 ver-alumnos-btn'; // Agrega una clase específica
-verAlumnosBtn.textContent = 'Ver Alumnos';
-verAlumnosBtn.addEventListener('click', () => {
-    console.log('Haciendo clic en el botón "Ver Alumnos"');
-    const cursoNombre = 'Logística'; // Reemplaza 'Logística' con el nombre del curso correspondiente
-    mostrarGrupos(); // Mostrar grupos al hacer clic
-    verAlumnos(cursoNombre);
-});
+    // Cambia el estilo para alternar entre 'block' y 'none'
+    listaAlumnos.style.display = listaAlumnos.style.display === 'none' ? 'block' : 'none';
+}
 
 
 
