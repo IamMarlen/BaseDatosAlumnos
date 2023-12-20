@@ -17,17 +17,14 @@ class Curso {
     }
 }
 
-
 const alumnos = JSON.parse(localStorage.getItem('Alumnos')) || [];
 const cursos = JSON.parse(localStorage.getItem('Cursos')) || []; 
-
 const cursosPermitidos = ['Matemáticas', 'Logística', 'Inglés', 'Programación', 'Electrónica'];
-
 
 function ocultarElementos() {
     document.getElementById('Baseparte1').style.display = 'none';
     document.getElementById('Baseparte2').style.display = 'none';
-    document.getElementById('form').style.display = 'none';  // Agrega esta línea para ocultar el formulario
+    document.getElementById('form').style.display = 'none';  
     document.getElementById('contenedorGrupos').style.display = 'none';
 }
 
@@ -53,14 +50,14 @@ function agregarAlumnos(nombre, apellido, edad, curso, calificaciones) {
         let cursoExistente = cursos.find(cursoItem => cursoItem.nombre === curso);
 
         if (!cursoExistente) {
-            cursoExistente = new Curso(curso, [], []); // Modificación aquí
+            cursoExistente = new Curso(curso, [], []);
             cursos.push(cursoExistente);
         }
 
         cursoExistente.estudiantes.push(nuevoAlumno);
         cursoExistente.materiasInscritas = Array.from(new Set([...cursoExistente.materiasInscritas, curso]));
 
-        // Modificación en la siguiente línea para manejar calificaciones
+        // Manejo de calificaciones
         cursoExistente.calificaciones.push({ alumno: nuevoAlumno, calificaciones: calificaciones });
 
         localStorage.setItem('Alumnos', JSON.stringify(alumnos));
@@ -79,9 +76,7 @@ function agregarAlumnos(nombre, apellido, edad, curso, calificaciones) {
         return {
             alumno: nuevoAlumno,
             cursos: [{ nombre: curso, estudiantes: [{ nombre, apellido }], calificaciones: calificaciones }],
-        };
-
-        
+        };       
     } else {
         console.log('El alumno ya existe en la lista.');
         return null;
@@ -111,7 +106,6 @@ function mostrarDatosAlumnos(base) {
 
     const baseElement = document.getElementById(base);
 
-
     if (baseElement) {
         ocultarElementos();
         baseElement.style.display = 'block';
@@ -139,21 +133,11 @@ function mostrarDatosAlumnos(base) {
 
 function ocultarPromedioSection() {
     // Oculta la sección de promedio
-    const promedioSection = document.getElementById('resultadoPromedio'); // Cambiado a 'resultadoPromedio'
-    promedioSection.innerHTML = ''; // Se ha eliminado la línea style.display = 'none';
+    const promedioSection = document.getElementById('resultadoPromedio'); 
+    promedioSection.innerHTML = ''; 
 }
 
-// Agrega un listener al botón de cursos
-//const btnCursos = document.getElementById('btnCursos');
-//btnCursos.addEventListener('click', function () {
-    //mostrarDatosCursos('Baseparte2', true); // Mostrar la tabla de cursos
-//});
-
-
-
-// Modifica la función mostrarDatosCursos para ocultar el formulario
-function mostrarDatosCursos(base) {
-    // Oculta la sección de promedio al mostrar datos de cursos
+function mostrarDatosCursos(base) {   
     ocultarPromedioSection();
 
     // Ocultar el formulario cuando se revisan los cursos
@@ -213,7 +197,7 @@ function crearFilasCursos(info) {
             calificaciones: item.calificaciones.slice().sort((a, b) => a - b),
         }));
 
-        // Iterar sobre cada estudiante del curso
+    
         for (let j = 0; j < estudiantes.length; j++) {
             const estudiante = estudiantes[j];
 
@@ -270,7 +254,6 @@ function enviarFormulario() {
             // Actualizar los datos en las tablas y mostrar la sección de promedio si es necesario
             ocultarElementos();
 
-            // Mostrar la alerta después de ocultar el formulario
             alert('Datos enviados correctamente');
         } else {
             alert('Error: El alumno ya existe en la lista.');
@@ -278,12 +261,8 @@ function enviarFormulario() {
     } else {
         alert('Selecciona exactamente tres calificaciones.');
     }
-
-    // Ocultar el formulario después de enviar los datos
     document.getElementById('form').style.display = 'none';
 }
-
-
 
 function actualizarDatos() {
     // Actualiza los datos en las tablas y en localStorage
@@ -291,13 +270,12 @@ function actualizarDatos() {
     mostrarDatosCursos('Baseparte2');
 }
 
-
 function mostrarAlumnosPorCurso(cursoNombre) {
     const curso = cursos.find(c => c.nombre === cursoNombre);
 
     if (curso) {
         const listaAlumnos = document.getElementById(`alumnos-${cursoNombre}`);
-        listaAlumnos.innerHTML = ''; // Limpiar contenido anterior
+        listaAlumnos.innerHTML = '';
 
         const alumnosCurso = curso.estudiantes;
 
@@ -323,14 +301,13 @@ function ocultarAlumnosPorCurso(cursoNombre) {
     listaAlumnos.style.display = 'none';
 }
 
-
 function mostrarGruposCursos() {
     const listaGrupos = document.getElementById('listaGrupos');
 
     if (listaGrupos.style.display === 'none') {
         // Si está oculto, mostrar la lista de grupos
         listaGrupos.style.display = 'block';
-        // ... (Llamar a funciones adicionales si es necesario)
+       
     } else {
         // Si está visible, ocultar la lista de grupos
         listaGrupos.style.display = 'none';
@@ -342,12 +319,12 @@ function calcularPromedioCurso(cursoNombre) {
 
     if (curso) {
         const resultados = calcularPromedioAlumnos(curso.estudiantes);
-        console.log(`Promedio del curso ${cursoNombre}: ${resultados.promedioGeneral}`);
+        const promedioGeneral = resultados.promedioGeneral.toFixed(1);
+        console.log(`Promedio del curso ${cursoNombre}: ${promedioGeneral}`);
         console.log('Promedios individuales de los alumnos:', resultados.promedios);
 
-        // Mostrar información en el área correspondiente (puedes adaptarlo para mostrar en la interfaz)
         const infoPromedioCurso = document.getElementById(`infoPromedioCurso-${cursoNombre}`);
-        infoPromedioCurso.textContent = `Promedio del curso: ${resultados.promedioGeneral.toFixed(1)}, Comentario: ${resultados.comentario}`;
+        infoPromedioCurso.textContent = `Promedio del curso: ${promedioGeneral}`;
     } else {
         console.error(`No se encontró el curso ${cursoNombre}`);
     }
@@ -362,7 +339,6 @@ dropdownToggle.setAttribute('aria-expanded', 'false');
 dropdownToggle.textContent = 'Acciones';
 
 function calcularPromedio() {
-    // Obtener las notas seleccionadas
     const nota1 = parseFloat(document.getElementById('inputCalificacion1').value) || 0;
     const nota2 = parseFloat(document.getElementById('inputCalificacion2').value) || 0;
     const nota3 = parseFloat(document.getElementById('inputCalificacion3').value) || 0;
@@ -433,7 +409,7 @@ function ordenarAlumnosPorPromedio(alumnos) {
     return alumnos.sort((a, b) => {
         const promedioA = calcularPromedioNotas(a.calificaciones);
         const promedioB = calcularPromedioNotas(b.calificaciones);
-        return promedioB - promedioA; // Ordenar de mayor a menor promedio
+        return promedioB - promedioA; 
     });
 }
 
@@ -444,22 +420,21 @@ tituloCurso.className = 'h4 pb-2 mb-6 tituloGrupos text-danger border-bottom bor
 
 function ocultarGrupos() {
     const contenedorGrupos = document.getElementById('contenedorGrupos');
-    contenedorGrupos.classList.add('d-none');  // Agrega la clase d-none para ocultar
+    contenedorGrupos.classList.add('d-none');  
 }
 
 function mostrarGrupos() {
     const contenedorGrupos = document.getElementById('contenedorGrupos');
-    contenedorGrupos.classList.remove('d-none');  // Remueve la clase d-none para mostrar
+    contenedorGrupos.classList.remove('d-none');  
 }
 
 function crearGrupos() {
-    ocultarGrupos(); // Ocultar grupos antes de mostrar nuevos
-
+    ocultarGrupos();
     const listaGrupos = document.getElementById('listaGrupos');
-    listaGrupos.innerHTML = '';  // Limpiar contenido anterior
+    listaGrupos.innerHTML = '';  
 
     cursos.forEach(curso => {
-        // Resto de tu código para crear grupos
+        
         const grupoContainer = document.createElement('div');
         grupoContainer.className = 'pb-2 mb-6'; // Clase para diseño de texto común
 
@@ -484,7 +459,7 @@ function crearGrupos() {
         ocultarBtn.className = 'btn btn-secondary btn-sm me-2';
         ocultarBtn.textContent = 'Ocultar';
         ocultarBtn.addEventListener('click', () => {
-            ocultarAlumnosPromedio(curso.nombre); // Cambiado aquí para ocultar solo la lista de alumnos
+            ocultarAlumnosPromedio(curso.nombre);
         });
 
         const listaAlumnos = document.createElement('div');
@@ -519,24 +494,27 @@ function crearGrupos() {
         listaGrupos.appendChild(grupoContainer);
 
        
-    });
-
-    mostrarGrupos(); // Mostrar grupos después de crearlos
+    });     
+    mostrarGrupos(); 
 }
 
-
-
 function calcularPromedioAlumnos(estudiantes) {
-    const promedios = estudiantes.map(alumno => calcularPromedioNotas(alumno.calificaciones));
-    const promedioGeneral = calcularPromedioNotas(promedios);
+    const promedios = estudiantes.map(alumno => {
+        const promedio = calcularPromedioNotas(alumno.calificaciones);
+        return isNaN(promedio) ? 0 : promedio;
+    });
+    const promedioGeneral = calcularPromedioNotas(promedios).toFixed(1);
     return {
         promedios: promedios,
-        promedioGeneral: promedioGeneral
+        promedioGeneral: isNaN(promedioGeneral) ? undefined : parseFloat(promedioGeneral)
     };
 }
 
 function calcularPromedioNotas(calificaciones) {
-    return calificaciones.reduce((sum, calif) => sum + calif, 0) / calificaciones.length;
+    const promedio = calificaciones.reduce((sum, calif) => sum + calif, 0) / calificaciones.length;
+
+    // Devolver el promedio como número con un solo decimal
+    return Number.isInteger(promedio) ? parseFloat(promedio.toFixed(1)) : parseFloat(promedio.toFixed(1));
 }
 
 function mostrarAlumnosPromedio(cursoNombre) {
@@ -551,42 +529,45 @@ function mostrarAlumnosPromedio(cursoNombre) {
 
         // Mostrar estudiantes en la lista
         alumnosOrdenados.forEach(alumno => {
-            const promedio = alumno.promedio !== undefined ? alumno.promedio.toFixed(1) : 'N/A';
-            const comentario = alumno.comentario !== undefined ? `, Comentario: ${alumno.comentario}` : '';
+            // Calcular el promedio solo si no está definido
+            if (alumno.promedio === undefined) {
+                alumno.promedio = calcularPromedioNotas(alumno.calificaciones);
+            }
+
+            const promedio = alumno.promedio !== undefined
+                ? alumno.promedio % 1 === 0
+                    ? alumno.promedio.toFixed(1)
+                    : Number.isInteger(alumno.promedio)
+                        ? `${alumno.promedio}.0`
+                        : alumno.promedio.toFixed(1)
+                : 'N/A';
 
             const itemAlumno = document.createElement('li');
-            itemAlumno.textContent = `${alumno.nombre} ${alumno.apellido} - Promedio: ${promedio}${comentario}`;
+            itemAlumno.textContent = `${alumno.nombre} ${alumno.apellido} - Promedio: ${promedio}`;
             listaAlumnos.appendChild(itemAlumno);
         });
-
-        // Mostrar la lista de alumnos
         listaAlumnos.style.display = 'block';
+
+        // Mostrar "Promedio del Curso" debajo de los botones solo si es llamado desde el botón "Promedio Curso"
+        const infoPromedioCurso = document.getElementById(`infoPromedioCurso-${cursoNombre}`);
+        if (infoPromedioCurso.dataset.show === 'true') {
+            const resultados = calcularPromedioAlumnos(curso.estudiantes);
+            infoPromedioCurso.textContent = `Promedio del curso: ${resultados.promedioGeneral.toFixed(1)}`;
+        }
     } else {
         console.error(`No se encontró el curso ${cursoNombre}`);
     }
 }
 
-
-
 function ocultarAlumnosPromedio(cursoNombre) {
     const listaAlumnos = document.getElementById(`listaAlumnos-${cursoNombre}`);
     listaAlumnos.style.display = 'none';
 }
 
-function ocultarAlumnosPromedio(cursoNombre) {
-    const listaAlumnos = document.getElementById(`listaAlumnos-${cursoNombre}`);
-    listaAlumnos.style.display = 'none';
-}
-
-
-// Llamada a la función para crear grupos al cargar la página
 crearGrupos();
 
 function revisarGrupos() {
-    // Oculta el formulario al revisar los grupos
-    ocultarElementos();
-
-    // Lógica para obtener y mostrar los grupos
+    ocultarElementos(); 
     crearGrupos(); // Llama a la función que crea los grupos
 
     // Muestra el contenedor de grupos después de crearlos
@@ -595,7 +576,6 @@ function revisarGrupos() {
 }
 
 function verAlumnos(cursoNombre) {
-    // Lógica para mostrar la lista de alumnos de un curso específico
     mostrarAlumnosPromedio(cursoNombre);
     const listaAlumnos = document.getElementById(`listaAlumnos-${cursoNombre}`);
     listaAlumnos.innerHTML = ''; // Limpia la lista antes de mostrar los alumnos
@@ -609,4 +589,5 @@ function verAlumnos(cursoNombre) {
             listaAlumnos.appendChild(fila);
         });
     }
+    
 }
